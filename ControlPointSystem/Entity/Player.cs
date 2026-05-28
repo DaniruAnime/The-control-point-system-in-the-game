@@ -1,4 +1,5 @@
 using ControlPointSystem.Memento;
+using ControlPointSystem.View;
 
 namespace ControlPointSystem.Entity {
   public class Player {
@@ -18,13 +19,11 @@ namespace ControlPointSystem.Entity {
     }
 
     public PlayerMemento Save() {
-      Console.WriteLine("Сохранение данных...\n");
       return new PlayerMemento(Name, HP, Level, Weapon);
     }
 
     public void Restore(PlayerMemento memento) {
       if (memento is null) {
-        Console.WriteLine("Сохранений нет\n");
         return;
       } else {
         Name = memento.Name;
@@ -39,36 +38,29 @@ namespace ControlPointSystem.Entity {
 
       if (HP <= 0) {
         HP = 0;
-        Console.WriteLine($"Игрок {Name} погиб получив {damage} урон(а)\n");
-      } else {
-        Console.WriteLine($"Игрок {Name} получил {damage} урон(а)\n");
       }
+
+      GameLogger.LogDamage(Name, damage, HP);
     }
 
     public void LevelUp(int addLevel) {
       Level += addLevel;
-      Console.WriteLine($"Уровень игрока {Name} был повышен на {addLevel}");
+      GameLogger.LogLevelUp(Name, addLevel);
     }
 
     public void ChangeName(string newName) {
       string pastName = Name;
       Name = newName;
-      Console.WriteLine($"Игрок {pastName} изменил своё имя на {Name}");
+      GameLogger.LogNameChange(pastName, Name);
     }
 
     public void ChangeWeapon(string newWeapon) {
       Weapon = newWeapon;
-      Console.WriteLine($"Игрок {Name} изменил своё оружие на {Weapon}");
+      GameLogger.LogWeaponChange(Name, Weapon);
     }
 
     public void StatusPlayer() {
-      Console.WriteLine($"Текущие параметры игрока:\n" +
-                        $"Имя: {Name}\n" +
-                        $"ХП: {HP}\n" +
-                        $"Уровень: {Level}\n" +
-                        $"Оружие: {Weapon}\n" +
-                        $"Нажмите Enter, чтобы продолжить...");
-      _ = Console.ReadLine();
+      GameLogger.LogPlayerStatus(Name, HP, Level, Weapon);
     }
   }
 }
