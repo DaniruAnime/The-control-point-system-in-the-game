@@ -39,9 +39,9 @@ namespace ControlPointSystem.Entity {
 
       if (HP <= 0) {
         HP = 0;
-        Console.WriteLine($"Игрок {Name} погиб\n");
+        Console.WriteLine($"Игрок {Name} погиб получив {damage} урон(а)\n");
       } else {
-        Console.WriteLine($"Игрок {Name} получил {damage} урона\n");
+        Console.WriteLine($"Игрок {Name} получил {damage} урон(а)\n");
       }
     }
 
